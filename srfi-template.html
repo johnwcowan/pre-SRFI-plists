@@ -97,19 +97,6 @@ retrieve the plist associated with the symbol and another to replace
 it, and this SRFI can then accept symbols as well as plists.
 </p>
 
-<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
-<blockquote>
-<p>
-
-</p>
-<pre class="example">
- &rArr; #f
-</pre>
-</blockquote>
-
-<br>
-
-
 
 <code>(plist-get <i>plist key [failure [success]]</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>value</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
 <blockquote>
@@ -121,8 +108,14 @@ failure continuation.
 </p>
 <pre class="example">
 (plist-get '(a 1) 'b)) &rArr; &lt;error&gt;
+</pre>
+<pre class="example">
 (plist-get '(a 1 b 2) 'a) &rArr; 1
+</pre>
+<pre class="example">
 (plist-get '(a 1 b 2) 'b (lambda () #f) (lambda (x) (* x x))) &rArr; 4
+</pre>
+<pre class="example">
 (plist-get '(a 1 b 2) 'c (lambda () #f) (lambda (x) (* x x))) &rArr; #f
 </pre>
 </blockquote>
@@ -137,7 +130,160 @@ default on failure.
 </p>
 <pre class="example">
 (plist-get/default '(a 1 b 2) 'a #t) &rArr; 1
+</pre>
+<pre class="example">
 (plist-get/default '(a 1 b 2) 'c #t) &rArr; #t
+</pre>
+</blockquote>
+
+<br>
+
+<code>(plist-get-properties <i>plist list-of-keys</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>multiple values</i> or <i><code>#f #f #f</code></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<blockquote>
+<p>
+Searches plist for the first key that is eqv?  to any of the keys in
+list-of-keys.
+Returns three values: the key, the value, and the tail of the plist
+following the value.
+If none of the keys are found, return three #f values.
+</p>
+<pre class="example">
+(plist-get-properties '(a 1 b 2) '(c a)) &rArr; a 1 (b 2)
+</pre>
+<pre class="example">
+(plist-get-properties '(a 1) '(b c)) &rArr; #f #f #f
+</pre>
+</blockquote>
+
+<br>
+
+<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<blockquote>
+<p>
+
+</p>
+<pre class="example">
+ &rArr; #f
+</pre>
+</blockquote>
+
+<br>
+
+<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<blockquote>
+<p>
+
+</p>
+<pre class="example">
+ &rArr; #f
+</pre>
+</blockquote>
+
+<br>
+
+<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<blockquote>
+<p>
+
+</p>
+<pre class="example">
+ &rArr; #f
+</pre>
+</blockquote>
+
+<br>
+
+<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<blockquote>
+<p>
+
+</p>
+<pre class="example">
+ &rArr; #f
+</pre>
+</blockquote>
+
+<br>
+
+<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<blockquote>
+<p>
+
+</p>
+<pre class="example">
+ &rArr; #f
+</pre>
+</blockquote>
+
+<br>
+
+<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<blockquote>
+<p>
+
+</p>
+<pre class="example">
+ &rArr; #f
+</pre>
+</blockquote>
+
+<br>
+
+<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<blockquote>
+<p>
+
+</p>
+<pre class="example">
+ &rArr; #f
+</pre>
+</blockquote>
+
+<br>
+
+<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<blockquote>
+<p>
+
+</p>
+<pre class="example">
+ &rArr; #f
+</pre>
+</blockquote>
+
+<br>
+
+<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<blockquote>
+<p>
+
+</p>
+<pre class="example">
+ &rArr; #f
+</pre>
+</blockquote>
+
+<br>
+
+<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<blockquote>
+<p>
+
+</p>
+<pre class="example">
+ &rArr; #f
+</pre>
+</blockquote>
+
+<br>
+
+<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<blockquote>
+<p>
+
+</p>
+<pre class="example">
+ &rArr; #f
 </pre>
 </blockquote>
 
