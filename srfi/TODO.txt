@@ -1,0 +1,3 @@
+Either make Marc's test suite noisy, or give run-tests an optional
+argument for one or the other.
+
