@@ -9,7 +9,7 @@
   <body>
     <h1><a href="https://srfi.schemers.org/"><img class="srfi-logo" src="https://srfi.schemers.org/srfi-logo.svg" alt="SRFI logo" /></a>###: Property Lists</h1>
 
-<p>by John Cowan (Author) and Harold Ancell (Scribe)</p>
+<p>by John Cowan (author) and Harold Ancell (scribe)</p>
 
 <h2 id="status">Status</h2>
 
@@ -20,25 +20,49 @@ The editor will add this section.
 
 <h2 id="abstract">Abstract</h2>
 
-??? abstract, preferably shorter than 200 words.  Please outline the
-need for, and design of, the proposal.
+<p>
+Property lists (plists) are a venerable LISP collection type, simple
+lists with alternating keys and values, and have some advantages over
+the heretofore Scheme standard of association lists (alists).
+This SRFI provides plists with tooling comparable to alists.
+</p>
 
+<p>
+Traditionally, plists have been changed by mutation rather than by
+prepending new keys and values as alists are, and these procedures
+reflect that convention.
+<p>
 
 
 <h2 id="issues">Issues</h2>
 
-??? Optional section that may point out things to be resolved.  This
-will not appear in the final SRFI.
+<p>
+None at present.
+</p>
+
 
 <h2 id="rationale">Rationale</h2>
 
-??? detailed rationale.  This should be 200-500 words long.  Please
-explain why the proposal should be incorporated as a standard feature
-in Scheme implementations.  List related standards and SRFIs,
-including dependencies, conflicts, and replacements.  If there are
-other standards which this proposal will replace or with which it will
-compete, please explain why the present proposal is a substantial
-improvement.
+<p>
+Property lists (plists) and association lists are very light weight key value stores that are alternatives to full fledged hash tables like those provided by <a href="https://srfi.schemers.org/srfi-69/srfi-69.html">SRFI 69</a> and later ones.  They have a variety of use cases, including procedure arguments and return values.
+
+Plists are simple lists with alternating keys and values, e.g. '(k1 v1 k2 v2).  Alists are dotted pairs in a list, the car the key, the cdr the value, e.g. '((k1 . v1) (k2 . v2))).
+
+While both alists and plists use the same number of pairs to represent keys and their values, plists have some advantages over alists.
+
+They require less tying e.g. '(k1 v1 k2 v2) vs. '((k1 . v1) (k2 . v2)), or 13 vs. 21 characters in this simple example.
+
+Some will find them more complex to parse by eye.
+
+They use the same format as keyword arguments, and thus can be passed to a procedure using apply so they will be interpreted as such.
+
+They avoid confusion when a list is stored as a value, an alist entered as '((key . (value1 value2))) prints as '((key value1 value2)).
+
+While alists have the assq et. al. set of procedures, and car and cdr to access the key and value respectively (and those work for the above list as a value example), besides alist-cons, alist-copy, alist-delete, and alist-delete! provided in <a href="https://srfi.schemers.org/srfi-1/srfi-1.html">SRFI 1</a> they have no standardized tooling.  Not much is required for them, but that could be viewed as "a moment of convenience, a lifetime of regret" trade-off.
+
+This SRFI provides a rich set of primitives [extol the virtues of it].
+</p>
+
 
 <h2 id="specification">Specification</h2>
 
@@ -58,20 +82,27 @@ it up to the implementer to decide what to do in response.
 Implementations may signal an error, assign some new meaning to
 <em>X</em>, or fail catastrophically.
 
+
+
+
 <h2 id="implementation">Implementation</h2>
 
-??? explanation of how it meets the sample implementation
-requirement (see <a href="srfi-process.html">process</a>), and the
-code, if possible, or a link to it
+<p>
+The <a href="https://github.com/scheme-requests-for-implementation/srfi-???/tree/master/srfi">srfi subdirectory</a>
+of the SRFI's repository contains a portable implementation.
+<p>
 
-<a href="srfi minus ???-sample.scm">Source for the sample implementation.</a>
 
-<h2 id="acknowledgements">Acknowledgements</h2>
+<h2 id="acknowledgements">Acknowledgments</h2>
 
-??? credit where it is due
+<p>
+Thanks to Marc Nieper-Wi&szlig;kirchen for providing the portable
+implementation of this SRFI.
+</p>
+
 
 <h2 id="copyright">Copyright</h2>
-<p>Copyright &copy; ??? (201?).</p>
+<p>Copyright &copy; 2020 by John Cowan.</p>
 
 <p>
   Permission is hereby granted, free of charge, to any person
