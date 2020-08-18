@@ -1,0 +1,8 @@
+MANIFEST (this file)
+
+plist.sld
+plist-test.sld
+README.md
+
+srfi/64.sld
+srfi/64/testing.scm
