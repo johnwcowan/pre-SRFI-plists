@@ -60,6 +60,8 @@ They avoid confusion when a list is stored as a value, an alist entered as '((ke
 
 While alists have the assq et. al. set of procedures, and car and cdr to access the key and value respectively (and those work for the above list as a value example), besides alist-cons, alist-copy, alist-delete, and alist-delete! provided in <a href="https://srfi.schemers.org/srfi-1/srfi-1.html">SRFI 1</a> they have no standardized tooling.  Not much is required for them, but that could be viewed as "a moment of convenience, a lifetime of regret" trade-off.
 
+This SRFI is based on Common Lisp, but is also designed to work with a dictionaries system work in progress.
+
 This SRFI provides a rich set of primitives [extol the virtues of it].
 </p>
 
@@ -82,6 +84,45 @@ it up to the implementer to decide what to do in response.
 Implementations may signal an error, assign some new meaning to
 <em>X</em>, or fail catastrophically.
 
+<p>
+Traditional plists use `eq?`, but this one uses `eqv?` so that numbers
+and characters can be used as keys.
+</p>
+
+<p>
+Note that this API is for property lists themselves, not for symbols
+with property lists attached.
+In a system where symbols have plists, you need a primitive to
+retrieve the plist associated with the symbol and another to replace
+it, and this SRFI can then accept symbols as well as plists.
+</p>
+
+<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i></i> </code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<blockquote>
+<p>
+
+</p>
+<pre class="example">
+() &rArr; #f
+</pre>
+</blockquote>
+
+
+<code>(plist-get <i>plist key [failure [success]]</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i></i> </code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<blockquote>
+<p>
+Search for the first value whose key is key and call the success or
+failure continuation.
+It is an error to search for a key not in the plist and not supply a
+failure continuation.
+</p>
+<pre class="example">
+(plist-get '(a 1) 'b)) &rArr; &lt;error&gt;
+(plist-get '(a 1 b 2) 'a) &rArr; 1
+(plist-get '(a 1 b 2) 'b (lambda () #f) (lambda (x) (* x x))) &rArr; 4
+(plist-get '(a 1 b 2) 'c (lambda () #f) (lambda (x) (* x x))) &rArr; #f
+</pre>
+</blockquote>
 
 
 
