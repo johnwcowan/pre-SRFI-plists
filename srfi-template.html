@@ -97,18 +97,21 @@ retrieve the plist associated with the symbol and another to replace
 it, and this SRFI can then accept symbols as well as plists.
 </p>
 
-<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i></i> </code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
 <blockquote>
 <p>
 
 </p>
 <pre class="example">
-() &rArr; #f
+ &rArr; #f
 </pre>
 </blockquote>
 
+<br>
 
-<code>(plist-get <i>plist key [failure [success]]</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i></i> </code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+
+
+<code>(plist-get <i>plist key [failure [success]]</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>value</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
 <blockquote>
 <p>
 Search for the first value whose key is key and call the success or
@@ -123,6 +126,22 @@ failure continuation.
 (plist-get '(a 1 b 2) 'c (lambda () #f) (lambda (x) (* x x))) &rArr; #f
 </pre>
 </blockquote>
+
+<br>
+
+<code>(plist-get/default <i>plist key default</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>value</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<blockquote>
+<p>
+Search for the first value whose key is key and return it or the
+default on failure.
+</p>
+<pre class="example">
+(plist-get/default '(a 1 b 2) 'a #t) &rArr; 1
+(plist-get/default '(a 1 b 2) 'c #t) &rArr; #t
+</pre>
+</blockquote>
+
+<br>
 
 
 
@@ -139,6 +158,7 @@ of the SRFI's repository contains a portable implementation.
 <p>
 Thanks to Marc Nieper-Wi&szlig;kirchen for providing the portable
 implementation of this SRFI.
+The examples were shameless stolen from its test suite.
 </p>
 
 
