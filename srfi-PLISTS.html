@@ -157,13 +157,26 @@ If none of the keys are found, return three #f values.
 
 <br>
 
-<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<code>(plist-put! <i>plist key value</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>plist</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
 <blockquote>
 <p>
-
+If the key is in the plist, the pair pointing to its value is mutated.
+If the key is not in the plist, the key and values are destructively
+appended to the plist.
 </p>
 <pre class="example">
- &rArr; #f
+(plist-put! '() 'a 1) &rArr; (a 1)
+</pre>
+<pre class="example">
+(define head (list 'a 1)) &rArr; &lt;undefined&gt;
+</pre>
+<pre class="example">
+(plist-put! head 'b 2) &rArr; (a 1 b 2)
+head &rArr; (a 1 b 2)
+</pre>
+<pre class="example">
+(plist-put! head 'a 3) &rArr; (a 3 b 2)
+head &rArr; (a 3 b 2)
 </pre>
 </blockquote>
 
@@ -175,7 +188,16 @@ If none of the keys are found, return three #f values.
 
 </p>
 <pre class="example">
- &rArr; #f
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
 </pre>
 </blockquote>
 
@@ -187,7 +209,16 @@ If none of the keys are found, return three #f values.
 
 </p>
 <pre class="example">
- &rArr; #f
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
 </pre>
 </blockquote>
 
@@ -199,7 +230,16 @@ If none of the keys are found, return three #f values.
 
 </p>
 <pre class="example">
- &rArr; #f
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
 </pre>
 </blockquote>
 
@@ -211,7 +251,16 @@ If none of the keys are found, return three #f values.
 
 </p>
 <pre class="example">
- &rArr; #f
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
 </pre>
 </blockquote>
 
@@ -223,7 +272,16 @@ If none of the keys are found, return three #f values.
 
 </p>
 <pre class="example">
- &rArr; #f
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
 </pre>
 </blockquote>
 
@@ -235,7 +293,16 @@ If none of the keys are found, return three #f values.
 
 </p>
 <pre class="example">
- &rArr; #f
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
 </pre>
 </blockquote>
 
@@ -247,7 +314,16 @@ If none of the keys are found, return three #f values.
 
 </p>
 <pre class="example">
- &rArr; #f
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
 </pre>
 </blockquote>
 
@@ -259,7 +335,16 @@ If none of the keys are found, return three #f values.
 
 </p>
 <pre class="example">
- &rArr; #f
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
 </pre>
 </blockquote>
 
@@ -271,7 +356,16 @@ If none of the keys are found, return three #f values.
 
 </p>
 <pre class="example">
- &rArr; #f
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
 </pre>
 </blockquote>
 
@@ -283,7 +377,37 @@ If none of the keys are found, return three #f values.
 
 </p>
 <pre class="example">
- &rArr; #f
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+</blockquote>
+
+<br>
+
+<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<blockquote>
+<p>
+
+</p>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
+</pre>
+<pre class="example">
+ &rArr;
 </pre>
 </blockquote>
 
