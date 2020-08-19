@@ -237,22 +237,40 @@ head  &rArr; (a 1 b 2)
 
 <br>
 
-<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<code>(plist-search! <i>plist key failure success</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>multiple values</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
 <blockquote>
 <p>
-
+Does a lookup, insert, replace, or delete.
 </p>
+<p>
+~~~FIX_ME: I could not find any anologous procedure in SRFI 125, or the other hash table SRFIs, or with Bing and Google.
+See SRFI 125 hash-table-search!.
 <pre class="example">
- &rArr;
+~~~FIX_ME: lookup example &rArr;
 </pre>
 <pre class="example">
- &rArr;
+~~~FIX_ME: lookup failure example &rArr;
 </pre>
 <pre class="example">
- &rArr;
+~~~FIX_ME: insert example &rArr;
 </pre>
 <pre class="example">
- &rArr;
+(plist-search! (list 'a 1 'b 2)
+               'a
+               (lambda (insert ignore)
+                 (error "failure called"))
+               (lambda (key value update remove)
+                 (update key 3 #t)))
+  &rArr; (a 3 b 2) #t
+</pre>
+<pre class="example">
+(plist-search! (list 'a 1 'b 2 'c 3)
+               'a
+               (lambda (insert ignore)
+                 (error "failure called"))
+               (lambda (key value update remove)
+                 (remove #t)))
+  &rArr; (b 2 c 3) #t
 </pre>
 </blockquote>
 
