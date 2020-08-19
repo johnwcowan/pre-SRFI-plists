@@ -241,11 +241,59 @@ head  &rArr; (a 1 b 2)
 <code>(plist-search! <i>plist key failure success</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>multiple values</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
 <blockquote>
 <p>
-Does a lookup, insert, replace, or delete.
+This procedure is a workhorse for plist lookup~~~FIX_ME is this true for lookup?? that text is from PropListAPI.md, not Dictionaries.md,
+insertion, updating, and deletion.
 </p>
 <p>
-~~~FIX_ME: I could not find any analogous procedure in SRFI 125, or the other hash table SRFIs, or with Bing and Google.
-See SRFI 125 hash-table-search!.
+The plist <i>plist</i> is searched for an association whose key is the
+same as <i>key</i> in the sense of <i>plist</i>'s comparator.
+</p>
+<p>
+If one is not found, then the <i>failure</i> procedure is tail-called
+with two continuation arguments, <i>insert</i> and <i>ignore</i>, and
+is expected to tail-call one of them.
+</p>
+<p>
+However, if such an association is found, then the <i>success</i>
+procedure is tail-called with the matching key of <i>plist</i>, the
+associated value, and two continuation arguments, <i>update</i>
+and <i>remove</i>, and is expected to tail-call one of them.
+</p>
+<p>
+It is an error if the continuation arguments are invoked other than in
+tail position in the <i>failure</i> and <i>success</i> procedures.
+It is also an error if the <i>failure</i> and <i>success</i>
+procedures return to their implicit continuation without invoking one
+of their arguments.
+</p>
+<p>
+The behaviors of the continuations are as follows (where <i>obj</i> is
+any Scheme object):
+</p>
+<ul>
+<li>
+Invoking (<i>ignore obj</i>) has no effects and returns <i>plist</i>
+unchanged.
+</li>
+<li>
+Invoking (<i>insert value obj</i>) returns a plist that contains all
+the associations of <i>plist</i>, and in addition a new association
+that maps <i>key</i> to <i>value</i>.
+</li>
+<li>
+Invoking (<i>update new-key new-value obj</i>) returns a plist that
+contains all the associations of <i>plist</i>, except for the
+association whose key is the same as <i>key</i>, which is replaced by
+a new association that maps <i>new-key</i> to <i>new-value</i>.
+</li>
+<li>
+Invoking (<i>remove obj</i>) returns a plist that contains all the
+associations of <i>plist</i>, except for the association with key key.
+</li>
+</ul>
+<p>
+In all cases, <i>obj</i> is returned as a second value.
+</p>
 <pre class="example">
 ~~~FIX_ME: lookup example &rArr;
 </pre>
