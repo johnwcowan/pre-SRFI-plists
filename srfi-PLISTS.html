@@ -291,43 +291,44 @@ Returns the number of keys in the plist.
 
 <br>
 
-<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<code>(plist-map! <i>proc plist</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>plist</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
 <blockquote>
 <p>
-
+Returns a plist with values modified by proc, which takes two arguments, key and value.
 </p>
 <pre class="example">
- &rArr;
+(plist-map! (lambda (key value)
+              (* value 2))
+            (list 'a 1 'b 2))
+  &rArr; (a 2 b 4)
 </pre>
 <pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
+(plist-map! (lambda (key value)
+              8)
+            (list 'a 1 'b 2))
+  &rArr; (a 8 b 8)
 </pre>
 </blockquote>
 
 <br>
 
-<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<code>(plist-filter! <i>predicate plist</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>plist</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
 <blockquote>
 <p>
-
+<i>predicate</i> takes two arguments, key and value.
+When <i>predicate</i> is satisfied, the key and value are removed from
+the returned plist.
 </p>
 <pre class="example">
- &rArr;
+(plist-filter! (lambda (key value) #t) '()) &rArr; ()
 </pre>
 <pre class="example">
- &rArr;
+(plist-filter! (lambda (key value) #t) '(a 1)) &rArr; ()
 </pre>
 <pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
+(plist-filter! (lambda (key value) (odd? value))
+               (list 'a 1 'b 2 'c 3))
+  &rArr; (b 2)
 </pre>
 </blockquote>
 
