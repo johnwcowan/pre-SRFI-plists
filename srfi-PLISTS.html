@@ -276,22 +276,16 @@ See SRFI 125 hash-table-search!.
 
 <br>
 
-<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<code>(plist-size <i>plist</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>exact integer</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
 <blockquote>
 <p>
-
+Returns the number of keys in the plist.
 </p>
 <pre class="example">
- &rArr;
+(plist-size '()) &rArr; 0
 </pre>
 <pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
+(plist-size '(a 1 b 2)) &rArr; 2
 </pre>
 </blockquote>
 
