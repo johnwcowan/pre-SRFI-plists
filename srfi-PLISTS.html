@@ -334,22 +334,18 @@ the returned plist.
 
 <br>
 
-<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<code>(plist-for-each <i>proc plist</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>unspecified</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
 <blockquote>
 <p>
-
+Calls proc on each key and value, returns unspecified value.
 </p>
 <pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
+(let ((acc '()))
+  (plist-for-each (lambda (key value)
+                    (set! acc (cons (cons key value) acc)))
+                  '(a 1 b 2))
+  acc)
+  &rArr; ((b . 2) (a . 1))
 </pre>
 </blockquote>
 
