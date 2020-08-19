@@ -10,13 +10,16 @@
       (test-group "plist-get"
         (test-error #t (plist-get '() 'a))
         (test-error #t (plist-get '(a 1) 'b))
-        (test-eqv 3 (plist-get '(a 1) 'b (lambda () 3)))
-        (test-eqv 1 (plist-get '(a 1 b 2) 'a))
-        (test-eqv 2 (plist-get '(a 1 b 2) 'b))
-        (test-eqv 4 (plist-get '(a 1 b 2) 'b (lambda () #f) (lambda (x) (* x x))))
+        (test-assert (eqv? 3 (plist-get '(a 1) 'b (lambda () 3))))
+        (test-assert (eqv? 1 (plist-get '(a 1 b 2) 'a)))
+        (test-assert (eqv? 2 (plist-get '(a 1 b 2) 'b)))
+        (test-assert (eqv? 4 (plist-get '(a 1 b 2) 'b (lambda () #f) (lambda (x) (* x x)))))
 
-        (test-eqv 1 (plist-get/default '(a 1 b 2) 'a #t))
-        (test-eqv #t (plist-get/default '(a 1 b 2) 'c #t)))
+        (test-assert (eqv? 1 (plist-get/default '(a 1 b 2) 'a #t)))
+        (test-assert (eqv? #t (plist-get/default '(a 1 b 2) 'c #t)))
+
+        )
+
 
       (test-group "plist-get-properties"
         (define tail '(b 2))
@@ -85,8 +88,11 @@
             res)))
 
       (test-group "plist-size"
-        (test-eqv 0 (plist-size '()))
-        (test-eqv 2 (plist-size '(a 1 b 2))))
+        (test-assert (eqv? 0 (plist-size '())))
+        (test-assert (eqv? 2 (plist-size '(a 1 b 2))))
+
+        )
+
 
       (test-group "plist-map!"
         (define plist (list 'a 1 'b 2))
