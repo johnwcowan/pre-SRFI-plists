@@ -1,3 +1,7 @@
 Either make Marc's test suite noisy, or give run-tests an optional
 argument for one or the other.
 
+Use the word association and associations to describe the relationship
+between keys and values, following the copied from Dictionaries.md
+dict-search! text used in plist-search!
+
