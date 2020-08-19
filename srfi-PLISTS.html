@@ -283,31 +283,52 @@ the association whose key is the same as <i>key</i>, which is replaced
 by a new association that maps <i>new-key</i> to <i>new-value</i>.
 </li>
 <li>
-Invoking (<i>remove obj</i>) returns a plist that contains all the
-associations of <i>plist</i>, except for the association
-with <i>key</i>.
+Invoking <code>(remove <i>obj</i>)</code> returns a plist that
+contains all the associations of <i>plist</i>, except for the
+association with <i>key</i>.
 </li>
 </ul>
 <pre class="example">
-~~~FIX_ME: insert example &rArr;
+(plist-search! (list 'a 1 'b 2)
+               'c
+               (lambda (insert ignore)
+                 (insert 3 #t))
+               (lambda (key value update remove)
+                 (error "key exists")))
+  &rArr; (a 1 b 2 c 3) #t
 </pre>
 <pre class="example">
 (plist-search! (list 'a 1 'b 2)
                'a
                (lambda (insert ignore)
-                 (error "failure called"))
+                 (insert 3 #t))
+               (lambda (key value update remove)
+                 (error "key exists")))
+  &rArr; &lt;error&gt; "key exists"
+</pre>
+<pre class="example">
+(plist-search! (list 'a 1 'b 2)
+               'a
+               (lambda (insert ignore)
+                 #f)
                (lambda (key value update remove)
                  (update key 3 #t)))
   &rArr; (a 3 b 2) #t
 </pre>
 <pre class="example">
-~~~FIX_ME: update failure example &rArr;
+(plist-search! (list 'a 1 'b 2)
+               'c
+               (lambda (insert ignore)
+                 #f)
+               (lambda (key value update remove)
+                 (update key 3 #t)))
+  &rArr; #f
 </pre>
 <pre class="example">
 (plist-search! (list 'a 1 'b 2 'c 3)
                'a
                (lambda (insert ignore)
-                 (error "failure called"))
+                 (error "key not in plist"))
                (lambda (key value update remove)
                  (remove #t)))
   &rArr; (b 2 c 3) #t
