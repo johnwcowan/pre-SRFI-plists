@@ -351,111 +351,19 @@ Calls proc on each key and value, returns unspecified value.
 
 <br>
 
-<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<p><code>(plist->alist <i>plist</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>alist</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)</p>
+<p><code>(alist->plist <i>alist</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>plist</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)</p>
 <blockquote>
 <p>
-
+Converts plists into alists, or <i>vice versa</i>.
 </p>
 <pre class="example">
- &rArr;
+(plist->alist '(a 1 b 2)) &rArr; ((a . 1) (b . 2))
 </pre>
 <pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
+(alist->plist '((a . 1) (b . 2))) &rArr; (a 1 b 2)
 </pre>
 </blockquote>
-
-<br>
-
-<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
-<blockquote>
-<p>
-
-</p>
-<pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
-</pre>
-</blockquote>
-
-<br>
-
-<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
-<blockquote>
-<p>
-
-</p>
-<pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
-</pre>
-</blockquote>
-
-<br>
-
-<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
-<blockquote>
-<p>
-
-</p>
-<pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
-</pre>
-</blockquote>
-
-<br>
-
-<code>( <i></i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>???</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
-<blockquote>
-<p>
-
-</p>
-<pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
-</pre>
-<pre class="example">
- &rArr;
-</pre>
-</blockquote>
-
-<br>
-
 
 
 <h2 id="implementation">Implementation</h2>
