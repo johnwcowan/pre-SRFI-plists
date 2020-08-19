@@ -1,13 +1,19 @@
 (define-library (plist-test)
+
   (export run-tests)
+
   (import (scheme base)
           (srfi 64)
           (plist))
+
   (begin
+
     (define (run-tests)
+
       (test-begin "plists")
 
       (test-group "plist-get"
+
         (test-error #t (plist-get '() 'a))
         (test-error #t (plist-get '(a 1) 'b))
         (test-assert (eqv? 3 (plist-get '(a 1) 'b (lambda () 3))))
@@ -22,6 +28,7 @@
 
 
       (test-group "plist-get-properties"
+
         (define tail '(b 2))
 
         (test-equal `(a 1 ,tail)
@@ -30,34 +37,47 @@
 
         (test-equal '(#f #f #f)
           (let-values ((res (plist-get-properties '(a 1) '(b c))))
-            res)))
+            res))
+
+        )
+
 
       (test-group "plist-put!"
+
         (define head (list 'a 1))
 
         (test-equal '(a 1)
           (plist-put! '() 'a 1))
-        (test-eq head (plist-put! head 'b 2))
+        (test-assert (eq? head (plist-put! head 'b 2)))
         (test-equal '(a 1 b 2) head)
-        (test-eq head (plist-put! head 'a 3))
+        (test-assert (eq? head (plist-put! head 'a 3)))
         (test-equal '(a 3 b 2) head)
-        (test-eq head (plist-put! head 'b 4))
-        (test-equal '(a 3 b 4) head))
+        (test-assert (eq? head (plist-put! head 'b 4)))
+        (test-equal '(a 3 b 4) head)
+
+        )
+
 
       (test-group "plist-remove!"
+
         (define head (list 'a 1 'b 2 'c 3))
-        (test-eq '() (plist-remove! '() 'a))
-        (test-eq '() (plist-remove! '(a 1) 'a))
-        (test-eq head (plist-remove! head 'c))
+        (test-assert (eq? '() (plist-remove! '() 'a)))
+        (test-assert (eq? '() (plist-remove! '(a 1) 'a)))
+        (test-assert (eq? head (plist-remove! head 'c)))
         (test-equal '(a 1 b 2) head)
-        (test-eq head (plist-remove! head 'a))
+        (test-assert (eq? head (plist-remove! head 'a)))
         (test-equal '(b 2) head)
-        (test-eq head (plist-remove! head 'c))
+        (test-assert (eq? head (plist-remove! head 'c)))
         (test-equal head '(b 2))
-        (test-eq '() (plist-remove! head 'b)))
+        (test-assert (eq? '() (plist-remove! head 'b)))
+
+        )
+
 
       (test-group "plist-search!"
+
         (define head (list 'a 1 'b 2))
+
         (test-equal '((a 3 b 2) #t)
           (let-values ((res (plist-search! head 'a
                                            (lambda (insert ignore)
@@ -85,9 +105,13 @@
                                              (ignore #t))
                                            (lambda (key value update remove)
                                              (error "success called")))))
-            res)))
+            res))
+
+        )
+
 
       (test-group "plist-size"
+
         (test-assert (eqv? 0 (plist-size '())))
         (test-assert (eqv? 2 (plist-size '(a 1 b 2))))
 
@@ -95,30 +119,53 @@
 
 
       (test-group "plist-map!"
+
         (define plist (list 'a 1 'b 2))
-        (test-eq plist (plist-map! (lambda (key value)
+
+        (test-assert (eq? plist (plist-map! (lambda (key value)
                                     (* value 2))
-                                  plist))
-        (test-equal '(a 2 b 4) plist))
+                                  plist)))
+        (test-equal '(a 2 b 4) plist)
+
+        )
+
 
       (test-group "plist-filter!"
+
         (define plist (list 'a 1 'b 2 'c 3))
+
         (test-equal '() (plist-filter! (lambda (key value) #t) '()))
         (test-equal '() (plist-filter! (lambda (key value) #t) '(a 1)))
-        (test-eq plist (plist-filter! (lambda (key value) (odd? value)) plist))
-        (test-equal '(b 2) plist))
+        (test-assert (eq? plist (plist-filter! (lambda (key value) (odd? value)) plist)))
+        (test-equal '(b 2) plist)
+
+        )
+
 
       (test-group "plist-for-each"
+
         (test-equal '((b . 2) (a . 1))
           (let ((acc '()))
             (plist-for-each (lambda (key value)
                               (set! acc (cons (cons key value) acc)))
                             '(a 1 b 2))
-            acc)))
+            acc))
+
+        )
+
 
       (test-group "plist->alist"
-        (test-equal '((a . 1) (b . 2)) (plist->alist '(a 1 b 2))))
+
+        (test-equal '((a . 1) (b . 2)) (plist->alist '(a 1 b 2)))
+
+        )
+
+
       (test-group "alist->plist"
-        (test-equal '(a 1 b 2) (alist->plist '((a . 1) (b . 2)))))
+
+        (test-equal '(a 1 b 2) (alist->plist '((a . 1) (b . 2))))
+
+        )
+
 
       (test-end "plists"))))
