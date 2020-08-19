@@ -7,15 +7,16 @@
     (define (run-tests)
       (test-begin "plists")
 
-      (test-error #t (plist-get '() 'a))
-      (test-error #t (plist-get '(a 1) 'b))
-      (test-eqv 3 (plist-get '(a 1) 'b (lambda () 3)))
-      (test-eqv 1 (plist-get '(a 1 b 2) 'a))
-      (test-eqv 2 (plist-get '(a 1 b 2) 'b))
-      (test-eqv 4 (plist-get '(a 1 b 2) 'b (lambda () #f) (lambda (x) (* x x))))
+      (test-group "plist-get"
+        (test-error #t (plist-get '() 'a))
+        (test-error #t (plist-get '(a 1) 'b))
+        (test-eqv 3 (plist-get '(a 1) 'b (lambda () 3)))
+        (test-eqv 1 (plist-get '(a 1 b 2) 'a))
+        (test-eqv 2 (plist-get '(a 1 b 2) 'b))
+        (test-eqv 4 (plist-get '(a 1 b 2) 'b (lambda () #f) (lambda (x) (* x x))))
 
-      (test-eqv 1 (plist-get/default '(a 1 b 2) 'a #t))
-      (test-eqv #t (plist-get/default '(a 1 b 2) 'c #t))
+        (test-eqv 1 (plist-get/default '(a 1 b 2) 'a #t))
+        (test-eqv #t (plist-get/default '(a 1 b 2) 'c #t)))
 
       (test-group "plist-get-properties"
         (define tail '(b 2))
@@ -83,8 +84,9 @@
                                              (error "success called")))))
             res)))
 
-      (test-eqv 0 (plist-size '()))
-      (test-eqv 2 (plist-size '(a 1 b 2)))
+      (test-group "plist-size"
+        (test-eqv 0 (plist-size '()))
+        (test-eqv 2 (plist-size '(a 1 b 2))))
 
       (test-group "plist-map!"
         (define plist (list 'a 1 'b 2))
@@ -100,14 +102,17 @@
         (test-eq plist (plist-filter! (lambda (key value) (odd? value)) plist))
         (test-equal '(b 2) plist))
 
-      (test-equal '((b . 2) (a . 1))
-        (let ((acc '()))
-          (plist-for-each (lambda (key value)
-                            (set! acc (cons (cons key value) acc)))
-                          '(a 1 b 2))
-          acc))
+      (test-group "plist-for-each"
+        (test-equal '((b . 2) (a . 1))
+          (let ((acc '()))
+            (plist-for-each (lambda (key value)
+                              (set! acc (cons (cons key value) acc)))
+                            '(a 1 b 2))
+            acc)))
 
-      (test-equal '((a . 1) (b . 2)) (plist->alist '(a 1 b 2)))
-      (test-equal '(a 1 b 2) (alist->plist '((a . 1) (b . 2))))
+      (test-group "plist->alist"
+        (test-equal '((a . 1) (b . 2)) (plist->alist '(a 1 b 2))))
+      (test-group "alist->plist"
+        (test-equal '(a 1 b 2) (alist->plist '((a . 1) (b . 2)))))
 
       (test-end "plists"))))
