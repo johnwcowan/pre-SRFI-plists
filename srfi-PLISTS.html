@@ -10,13 +10,13 @@
     <h1><a href="https://srfi.schemers.org/"><img class="srfi-logo" src="https://srfi.schemers.org/srfi-logo.svg" alt="SRFI logo" /></a>###: Property Lists</h1>
 
 <p>
-by John Cowan (author and editor) and Harold Ancell (scribe)
+by John Cowan (author and editor), Harold Ancell (scribe), and Marc Nieper-Wißkirchen (implementer)
 </p>
 
 <h2 id="status">Status</h2>
 
 <ul>
-  <li>John Cowans' <a href="https://github.com/johnwcowan/srfi-???">personal
+  <li>John Cowan's <a href="https://github.com/johnwcowan/srfi-???">personal
     Git repo for this SRFI</a> for reference while the SRFI is in
     <em>draft</em> status (<a href="https://htmlpreview.github.io/?https://github.com/johnwcowan/srfi-???/blob/master/srfi-???.html">preview</a>)</li>
 </ul>
@@ -48,48 +48,43 @@ None at present.
 <h2 id="rationale">Rationale</h2>
 
 <p>
-Property lists (plists) and association lists are very light weight key value stores that are alternatives to full fledged hash tables like those provided by <a href="https://srfi.schemers.org/srfi-69/srfi-69.html">SRFI 69</a> and later ones.  They have a variety of use cases, including procedure arguments and return values.
+Property lists (plists) and association lists are very light weight key-value stores that are alternatives to full fledged hash tables like those provided by <a href="https://srfi.schemers.org/srfi-69/srfi-69.html">SRFI 69</a> and later ones.  They have a variety of use cases, including procedure arguments and return values.
 
-Plists are simple lists with alternating keys and values, e.g. '(k1 v1 k2 v2).  Alists are dotted pairs in a list, the car the key, the cdr the value, e.g. '((k1 . v1) (k2 . v2))).
+Plists are simple lists with alternating keys and values, e.g. <code>(k1 v1 k2 v2)</code>.
+Alists are dotted pairs in a list, the car the key, the cdr the value, e.g. <code>((k1 . v1) (k2 . v2))</code>.
 
-While both alists and plists use the same number of pairs to represent keys and their values, plists have some advantages over alists.
+While both alists and plists use the same number of pairs
+to represent keys and their values, plists have some advantages over alists:
 
-They require less tying e.g. '(k1 v1 k2 v2) vs. '((k1 . v1) (k2 . v2)), or 13 vs. 21 characters in this simple example.
+<ul>
 
-Some will find them more complex to parse by eye.
+<li>They require less typing: e.g. <code>(k1 v1 k2 v2)</code> vs.
+<code>((k1 . v1) (k2 . v2))</code>, or 13 vs. 21 characters
+in this simple example.</li>
 
-They use the same format as keyword arguments, and thus can be passed to a procedure using apply so they will be interpreted as such.
+<li>Some people find them more complex to parse by eye.</li>
 
-They avoid confusion when a list is stored as a value, an alist entered as '((key . (value1 value2))) prints as '((key value1 value2)).
+<li>They use the same format as keyword arguments, and thus can be passed
+to a procedure using apply so they will be interpreted as such.</li>
 
-While alists have the assq et. al. set of procedures, and car and cdr to access the key and value respectively (and those work for the above list as a value example), besides alist-cons, alist-copy, alist-delete, and alist-delete! provided in <a href="https://srfi.schemers.org/srfi-1/srfi-1.html">SRFI 1</a> they have no standardized tooling.  Not much is required for them, but that could be viewed as "a moment of convenience, a lifetime of regret" trade-off.
+<li>They avoid confusion when a list is stored as a value:
+an alist entered as <code>((key . (value1 value2)))</code>
+prints as <code>((key value1 value2))</code>.</li>
+</ul>
 
-This SRFI is based on Common Lisp, but is also designed to work with a dictionaries system work in progress.
+While alists have a set of procedures like <code>assq</code>,
+and <code>car</code> and <code>cdr</code> to access the key and value,
+plus <code>alist-cons</code>, <code>alist-copy</code>,
+<code>alist-delete</code>, and <code>alist-delete!</code> provided in
+<a href="https://srfi.schemers.org/srfi-1/srfi-1.html">SRFI 1</a>, plists have no standardized tooling.
 
-This SRFI provides a rich set of primitives [extol the virtues of it].
-</p>
-
+<p>This SRFI is based on Common Lisp, but is also designed to work
+with a dictionaries framework in progress.</p>
 
 <h2 id="specification">Specification</h2>
 
-??? detailed specification.  This should be detailed enough that a
-conforming implementation could be completely created from this
-description.  Please follow the linguistic conventions described in
-the <a href="/srfi-faq.html#conventions">FAQ</a>.  In particular,
-please follow the conventions about the use of the terms "must," "must
-not," "required," "shall," "shall not," "should," "should not,"
-"recommended," "may," and "optional" defined by
-<a href="https://www.ietf.org/rfc/rfc2119.html">RFC 2119</a>.  This
-convention has been adopted by R7RS Small, too, in section 1.3.2
-(<a href="https://small.r7rs.org/attachment/r7rs.pdf">PDF</a>).  Also
-by convention, the phrase "it is an error to <em>X</em>" is used in
-Scheme documents to mean that <em>X</em> is not allowed, but to leave
-it up to the implementer to decide what to do in response.
-Implementations may signal an error, assign some new meaning to
-<em>X</em>, or fail catastrophically.
-
 <p>
-Traditional plists use "eq?", but this one uses "eqv?" so that numbers
+Traditional plists use <code>eq?</code>, but this one uses <code>eqv?</code> so that numbers
 and characters can be used as keys.
 </p>
 
@@ -105,10 +100,11 @@ it, and this SRFI can then accept symbols as well as plists.
 <code>(plist-get <i>plist key [failure [success]]</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>value</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
 <blockquote>
 <p>
-Search for the first value whose key is key and call the success or
-failure continuation.
-It is an error to search for a key not in the plist and not supply a
-failure continuation.
+Search <i>plist</i> for the first key that is the same as <i>key</i>.  If it is
+found, tail-call <i>success</i> on the corresponding value.
+If it is not found, tail-call the thunk <i>failure</i>.
+The default values are an identity procedure and an
+error-signaling procedure respectively.
 </p>
 <pre class="example">
 (plist-get '(a 1) 'b) &rArr; &lt;error&gt;
@@ -129,8 +125,8 @@ failure continuation.
 <code>(plist-get/default <i>plist key default</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>value</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
 <blockquote>
 <p>
-Search for the first value whose key is key and return it or the
-default on failure.
+Search <i>plist</i> for the first key that is the same as <i>key</i>.
+If it is found, return the corresponding value; if not, return <i>default</i>.
 </p>
 <pre class="example">
 (plist-get/default '(a 1 b 2) 'a #t) &rArr; 1
@@ -142,14 +138,15 @@ default on failure.
 
 <br>
 
-<code>(plist-get-properties <i>plist list-of-keys</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>multiple values</i> or <i><code>#f #f #f</code></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
+<code>(plist-get-properties <i>plist list-of-keys</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>multiple values</i></code></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
 <blockquote>
 <p>
-Searches plist for the first key that is eqv?  to any of the keys in
-list-of-keys.
-Returns three values: the key, the value, and the tail of the plist
+Search plist for the first key that is 
+the same as any of the members of
+<i>list-of-keys.</i>
+Returns three values: the key, the value, and the tail of <i>plist</i>
 following the value.
-If none of the keys are found, return three #f values.
+If none of the keys are found, return three <code>#f</code> values.
 </p>
 <pre class="example">
 (plist-get-properties '(a 1 b 2) '(c a)) &rArr; a 1 (b 2)
@@ -164,23 +161,13 @@ If none of the keys are found, return three #f values.
 <code>(plist-put! <i>plist key value</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>plist</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
 <blockquote>
 <p>
-If the key is in the plist, the pair pointing to its value is mutated.
-If the key is not in the plist, the key and values are destructively
+If <i>key</i> is in the plist, the pair pointing to <i>value</i> is mutated.
+If <i>key</i> is not in the plist, <i>key</i> and <i>value</i> are destructively
 appended to the plist.
+If the plist is empty, a new plist with <i>key</i> and <i>value</i> is created
+and returned.
 </p>
 <p>
-~~~FIX_ME; Is this saying new and old when that's not the case except
-for handing it an empty list?
-
-Original text:
-
-This procedure returns the new plist, which normally would be the same
-as the old plist, unless the old plist is empty.
-
-Maybe better text:
-
-This procedure returns the plist, which is normally the same as the
-submitted plist, unless the submitted plist was empty.
 </p>
 <pre class="example">
 (plist-put! '() 'a 1) &rArr; (a 1)
@@ -203,22 +190,11 @@ head &rArr; (a 3 b 2)
 <code>(plist-remove <i>plist key</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>plist</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
 <blockquote>
 <p>
-If the key is in the plist, remove both key and value.
+If <i>key</i> is a key of <i>plist</i>, destructively remove
+both the key and its value and return the new plist.
+This will be the same as <i>plist</i>
+unless the first key was removed.
 If not, do nothing.
-</p>
-<p>
-~~~FIX_ME; Is this saying new and old when that's not the case except
-for handing it an empty list?
-
-Original text:
-
-This procedure returns the new plist, which normally would be the same
-as the old plist, unless the old plist is empty.
-
-Maybe better text:
-
-This procedure returns the plist, which is normally the same as the
-submitted plist, unless the submitted plist was empty.
 </p>
 <pre class="example">
 (plist-remove! '() 'a) &rArr; ()
@@ -340,7 +316,7 @@ association with <i>key</i>.
 <code>(plist-size <i>plist</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>exact integer</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
 <blockquote>
 <p>
-Returns the number of keys in the plist.
+Returns the number of keys in <i>plist</i>.
 </p>
 <pre class="example">
 (plist-size '()) &rArr; 0
@@ -355,7 +331,9 @@ Returns the number of keys in the plist.
 <code>(plist-map! <i>proc plist</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>plist</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
 <blockquote>
 <p>
-Returns a plist with values modified by proc, which takes two arguments, key and value.
+Returns a plist with the same keys as <i>plist</i>, but
+with each value passed through <i>proc</i>,
+which takes two arguments, a key and its value.
 </p>
 <pre class="example">
 (plist-map! (lambda (key value)
@@ -376,9 +354,10 @@ Returns a plist with values modified by proc, which takes two arguments, key and
 <code>(plist-filter! <i>predicate plist</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>plist</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
 <blockquote>
 <p>
-<i>predicate</i> takes two arguments, key and value.
+The <i>predicate</i> takes two arguments, a key and its value.
 When <i>predicate</i> is satisfied, the key and value are removed from
-the returned plist.
+<i>plist</i>.  The returned plist will be the same as <i>plist</i>
+unless the first key and value were filtered out.
 </p>
 <pre class="example">
 (plist-filter! (lambda (key value) #t) '()) &rArr; ()
@@ -398,7 +377,8 @@ the returned plist.
 <code>(plist-for-each <i>proc plist</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>unspecified</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)
 <blockquote>
 <p>
-Calls proc on each key and value, returns unspecified value.
+Calls <i>proc</i> on each key and value of <i>plist</i> and
+returns an unspecified value.
 </p>
 <pre class="example">
 (let ((acc '()))
@@ -416,7 +396,7 @@ Calls proc on each key and value, returns unspecified value.
 <p><code>(alist->plist <i>alist</i>)</code> &nbsp;&nbsp;&nbsp;&rarr; &nbsp;&nbsp;&nbsp;<i>plist</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(procedure)</p>
 <blockquote>
 <p>
-Converts plists into alists, or <i>vice versa</i>.
+Converts a plist into an alist or vice versa.
 </p>
 <pre class="example">
 (plist->alist '(a 1 b 2)) &rArr; ((a . 1) (b . 2))
@@ -437,15 +417,11 @@ of the SRFI's repository contains a portable implementation.
 
 <h2 id="acknowledgements">Acknowledgements</h2>
 
-<p>
-Thanks to Marc Nieper-Wi&szlig;kirchen for providing the portable
-implementation of this SRFI.
-Most of the examples were shamelessly stolen from its test suite.
-</p>
+<p>Thanks to the contributors to the SRFI ### mailing list.</p>
 
 
 <h2 id="copyright">Copyright</h2>
-<p>Copyright &copy; 2020 by John Cowan.</p>
+<p>Copyright &copy; 2020 by John Cowan and Marc Nieper-Wißkirchen.</p>
 
 <p>
   Permission is hereby granted, free of charge, to any person
